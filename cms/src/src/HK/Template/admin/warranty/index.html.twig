@@ -1,0 +1,30 @@
+{% extends 'admin/master/admin.html.twig' %}
+{% block css %}
+<style type="text/css">
+span.WAITING{
+    color: #F39C12;
+    font-weight: bold;
+}
+span.DONE{
+    color: #2ECC71;
+    font-weight: bold;
+}
+span.CANCEL{
+    color: #F00;
+    font-weight: bold;
+}
+</style>
+{% endblock %}
+{% block body_content %}
+    <section class="hk-sec-wrapper">
+        <div class="row hk-filter-form-render hk-float-right mr-5" hk-data-url="{{path(router_filter_form)}}" hk-data-url-filter="{{path(router_filter)}}"></div>
+        <div class="hk-clear"></div>
+    </section>
+    <div class="row hk-admin-menu-control" hk-data-url="{{path(router_menu_control)}}" id="hk-admin-menu-control" hk-data-admin-checked-require-error="{{'lbl.menu.checked-require'|trans}}"></div>
+    <section class="hk-sec-wrapper">
+        <div class="row hk-table-render" hk-data-url-base="{{path(router)}}" hk-data-is-published-text="{{'lbl.action-publish'|trans}}"></div>
+        <div class="row hk-limit-render hk-float-left ml-5" hk-data-limit-text="{{'lbl.limit-item'|trans}}" hk-data-limit="{{'PAGINATOR_LIMIT'|env}}"></div>
+        <div class="row hk-paginator-render hk-float-right mr-5" hk-data-paginator-length="{{'PAGINATOR_LENGTH'|env}}"></div>
+        <div class="hk-clear"></div>
+    </section>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'admin/master/admin.html.twig' %}
+{% block css %}{% endblock %}
+{% block body_content %}
+    <section class="hk-sec-wrapper">
+        <div class="row hk-filter-form-render hk-float-right mr-5" hk-data-url="{{path(router_filter_form)}}" hk-data-url-filter="{{path(router_filter)}}"></div>
+        <div class="hk-clear"></div>
+    </section>
+    <div class="row hk-admin-menu-control" hk-data-url="{{path(router_menu_control)}}" id="hk-admin-menu-control" hk-data-admin-checked-require-error="{{'lbl.menu.checked-require'|trans}}"></div>
+    <section class="hk-sec-wrapper">
+        <div class="row hk-table-render" hk-data-url-base="{{path(router)}}" hk-data-is-published-text="{{'lbl.action-publish'|trans}}"></div>
+        <div class="row hk-limit-render hk-float-left ml-5" hk-data-limit-text="{{'lbl.limit-item'|trans}}" hk-data-limit="{{'PAGINATOR_LIMIT'|env}}"></div>
+        <div class="row hk-paginator-render hk-float-right mr-5" hk-data-paginator-length="{{'PAGINATOR_LENGTH'|env}}"></div>
+        <div class="hk-clear"></div>
+    </section>
+    <div class="modal fade" id="hk-modal-import" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document" style="max-width: 80%; min-width: 300px; width: 50%">
+            <div class="modal-content border-0">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" id="hk-modal-page-title">
+                        Import
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">
+                            ×
+                        </span>
+                    </button>
+                </div>
+                <div class="modal-body" style="padding: 20px">
+                    <form name="" id="hk-form-import" action="/hkadmin/cost-management/import" method="post" enctype="multipart/form-data">
+                        <div class=" form-group">
+                            <input type="file" name="hfile_import" id="" class="hk-check" hk-validate-required="1" hk-validate-required-error="Chọn file import"/>
+                        </div>
+                        <div class=" form-group">
+                            <button id="" class="btn btn-primary hk-form" hk-ref-id="hk-form-import" hk-data-url="{{path('hk_admin.customer.import')}}" hk-form-is-multipart="1" hk-callback-after="hkadmin_menuImportCallback">
+                                Import
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+<script>
+
+        function hkadmin_menuImportBefore (data) {
+            hidemodal ();
+            $ ('#hk-modal-import').modal ('show');
+            return false;
+        }
+        function hopen_import (data) {
+            $ ('#hk-modal-import').modal ('show');
+            return false;
+        }
+        function hkadmin_menuImportCallback (data) {
+            hidemodal ();
+            if (HKCOMMON.isOk (data)) {
+                // trigger
+                $ ('#hk-button-filter').trigger ('click');
+                return;
+            }
+            HKALERT.showError (data);
+        }
+        function hidemodal () {
+            $ ('#hk-modal-import').modal ('hide');
+            $ ('#hk-form-import').trigger ("reset");
+        }
+</script>
+{% endblock %}
