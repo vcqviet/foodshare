@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+    db:
+        image: mysql:8.0.20
+        command: --default-authentication-plugin=mysql_native_password
+        volumes:
+            - "db_app:/var/lib/mysql"
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: foodshare
+            MYSQL_USER: root
+            MYSQL_PASSWORD: root
+        ports:
+            - 3306:3306
+        networks:
+            - symfony
+    php:
+        build:
+            context: .
+            dockerfile: php/Dockerfile
+            args:
+                TIMEZONE: Asia/Ho_Chi_Minh
+        volumes:
+            - ../cms/:/var/www/cms/
+        networks:
+            - symfony
+    nginx:
+        build:
+            context: .
+            dockerfile: nginx/Dockerfile
+        volumes:
+            - ../cms/:/var/www/cms/
+        ports:
+            - 80:80
+        networks:
+            - symfony
+
+volumes:
+    db_app:
+
+networks:
+    symfony:
